@@ -613,7 +613,7 @@
                 color: black;
             }
 
-            .tabs, .controls, .export-btn, .upload-section, .site-footer {
+            .tabs, .controls, .export-btn, .upload-section, .stlabs-footer {
                 display: none;
             }
 
@@ -1096,199 +1096,204 @@
             outline-offset: 2px;
         }
 
-        /* Footer ST Labs - Exact stlabs.ar Style */
-        .site-footer {
+        /* Footer ST Labs - EXACT COPY from stlabs.ar */
+        .stlabs-footer {
+            position: relative;
+            width: 100%;
+            background: #1a1a1a;
+            overflow: hidden;
             margin-top: 4rem;
-            padding: 0;
-            background: #0a0a0a;
-            border-top: 1px solid rgba(255,255,255,0.06);
         }
 
-        .footer-container {
-            max-width: 1200px;
+        .stlabs-footer-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(59, 130, 246, 0.5), transparent);
+        }
+
+        .stlabs-footer-container {
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 4rem 2rem 2rem;
+            padding: 64px 16px;
         }
 
-        .footer-grid {
+        .stlabs-footer-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1.5fr;
-            gap: 3rem;
+            grid-template-columns: 1fr;
+            gap: 48px;
         }
 
-        .footer-brand-col {
+        @media (min-width: 768px) {
+            .stlabs-footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Brand Column */
+        .stlabs-footer-brand {
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
         }
 
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            color: #ffffff;
-            font-size: 1.35rem;
-            font-weight: 700;
-            font-family: 'Inter', sans-serif;
+        .stlabs-logo {
+            display: block;
         }
 
-        .footer-logo-svg {
-            width: 40px;
+        .stlabs-logo svg {
+            width: 120px;
             height: 40px;
+            object-fit: contain;
         }
 
-        .footer-logo span {
-            color: #ffffff;
+        .stlabs-footer-tagline {
+            color: #a3a3a3;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 16px 0 0 0;
         }
 
-        .footer-description {
-            color: #71717a;
-            font-size: 0.9rem;
-            line-height: 1.7;
-            max-width: 280px;
-        }
-
-        .footer-col h4 {
-            color: #ffffff;
-            font-size: 0.9rem;
+        /* Columns */
+        .stlabs-footer-col h3 {
+            color: #3b82f6;
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 1.25rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            margin: 0 0 16px 0;
         }
 
-        .footer-col ul {
+        .stlabs-footer-col ul {
             list-style: none;
             padding: 0;
             margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 0.85rem;
+            gap: 8px;
         }
 
-        .footer-col ul li a {
-            color: #71717a;
+        .stlabs-footer-col ul li a {
+            color: #a3a3a3;
+            font-size: 14px;
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s ease;
-            font-weight: 400;
+            transition: color 0.3s ease;
         }
 
-        .footer-col ul li a:hover {
-            color: #ffffff;
+        .stlabs-footer-col ul li a:hover {
+            color: #3b82f6;
         }
 
-        .footer-contact li {
+        /* Contact Column */
+        .stlabs-footer-email {
+            color: #a3a3a3;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .stlabs-footer-email:hover {
+            color: #3b82f6;
+        }
+
+        .stlabs-footer-location {
+            color: #a3a3a3;
+            font-size: 14px;
+            margin: 0 0 16px 0;
+        }
+
+        /* Social Buttons */
+        .stlabs-footer-social {
+            display: flex;
+            gap: 16px;
+        }
+
+        .stlabs-social-btn {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            color: #71717a;
-            font-size: 0.9rem;
+            justify-content: center;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            transition: background 0.3s ease;
         }
 
-        .footer-contact li svg {
+        .stlabs-social-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .stlabs-social-btn svg {
+            width: 20px;
+            height: 20px;
             color: #3b82f6;
-            flex-shrink: 0;
+            transition: transform 0.3s ease;
         }
 
-        .footer-contact li a {
-            color: #71717a;
-            text-decoration: none;
-            transition: color 0.2s ease;
+        .stlabs-social-btn:hover svg {
+            transform: scale(1.1);
         }
 
-        .footer-contact li a:hover {
-            color: #ffffff;
-        }
-
-        .footer-contact li span {
-            color: #71717a;
-        }
-
-        .footer-divider {
+        /* Divider */
+        .stlabs-footer-divider {
             height: 1px;
-            background: rgba(255,255,255,0.06);
-            margin: 3rem 0 1.5rem;
+            background: #262626;
+            margin: 48px 0 32px 0;
         }
 
-        .footer-bottom {
+        /* Bottom */
+        .stlabs-footer-bottom {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            gap: 16px;
         }
 
-        .footer-copyright {
-            color: #52525b;
-            font-size: 0.85rem;
+        @media (min-width: 768px) {
+            .stlabs-footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+            }
         }
 
-        .footer-copyright a {
-            color: #3b82f6;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
+        .stlabs-footer-bottom p {
+            color: #737373;
+            font-size: 14px;
+            margin: 0;
         }
 
-        .footer-copyright a:hover {
-            color: #60a5fa;
-        }
-
-        .footer-legal {
+        .stlabs-footer-links {
             display: flex;
-            gap: 1.5rem;
+            gap: 24px;
         }
 
-        .footer-legal a {
-            color: #52525b;
+        .stlabs-footer-links a {
+            color: #737373;
+            font-size: 14px;
             text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s ease;
+            transition: color 0.3s ease;
         }
 
-        .footer-legal a:hover {
-            color: #ffffff;
+        .stlabs-footer-links a:hover {
+            color: #3b82f6;
         }
 
-        @media (max-width: 900px) {
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 2.5rem;
+        @media (max-width: 767px) {
+            .stlabs-footer-container {
+                padding: 48px 16px;
             }
-            .footer-brand-col {
-                grid-column: span 2;
-            }
-            .footer-description {
-                max-width: 100%;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+            .stlabs-footer-grid {
                 text-align: center;
             }
-            .footer-brand-col {
-                grid-column: span 1;
+            .stlabs-footer-brand {
                 align-items: center;
             }
-            .footer-logo {
-                justify-content: center;
-            }
-            .footer-col ul {
-                align-items: center;
-            }
-            .footer-contact li {
-                justify-content: center;
-            }
-            .footer-bottom {
+            .stlabs-footer-col {
+                display: flex;
                 flex-direction: column;
-                text-align: center;
+                align-items: center;
             }
-            .footer-legal {
+            .stlabs-footer-social {
                 justify-content: center;
             }
         }
@@ -1628,74 +1633,71 @@
         </div>
     </div>
 
-    <!-- Footer ST Labs -->
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-grid">
+    <!-- Footer ST Labs - Exact Copy -->
+    <footer class="stlabs-footer">
+        <div class="stlabs-footer-gradient"></div>
+        <div class="stlabs-footer-container">
+            <div class="stlabs-footer-grid">
                 <!-- Brand Column -->
-                <div class="footer-brand-col">
-                    <a href="https://stlabs.ar/" target="_blank" class="footer-logo">
-                        <svg class="footer-logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="40" height="40" rx="8" fill="url(#gradient1)"/>
-                            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Inter, sans-serif" font-weight="800" font-size="16">ST</text>
+                <div class="stlabs-footer-brand">
+                    <a href="https://stlabs.ar/" target="_blank" class="stlabs-logo">
+                        <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="40" rx="8" fill="url(#stlabs-grad)"/>
+                            <text x="20" y="25" text-anchor="middle" fill="white" font-family="Inter, sans-serif" font-weight="800" font-size="14">ST</text>
+                            <text x="75" y="26" fill="white" font-family="Inter, sans-serif" font-weight="700" font-size="16">Labs</text>
                             <defs>
-                                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <linearGradient id="stlabs-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#3b82f6"/>
                                     <stop offset="100%" stop-color="#8b5cf6"/>
                                 </linearGradient>
                             </defs>
                         </svg>
-                        <span>ST Labs</span>
                     </a>
-                    <p class="footer-description">
-                        Transformando ideas en soluciones tecnológicas innovadoras.
-                    </p>
+                    <p class="stlabs-footer-tagline">Transformando ideas en soluciones tecnológicas innovadoras.</p>
                 </div>
 
                 <!-- Services Column -->
-                <div class="footer-col">
-                    <h4>Servicios</h4>
+                <div class="stlabs-footer-col">
+                    <h3>Servicios</h3>
                     <ul>
-                        <li><a href="https://stlabs.ar/" target="_blank">Desarrollo Web</a></li>
-                        <li><a href="https://stlabs.ar/" target="_blank">Aplicaciones Móviles</a></li>
-                        <li><a href="https://stlabs.ar/" target="_blank">Consultoría IT</a></li>
-                        <li><a href="https://stlabs.ar/" target="_blank">Cloud Solutions</a></li>
+                        <li><a href="https://stlabs.ar/#services" target="_blank">Desarrollo Web</a></li>
+                        <li><a href="https://stlabs.ar/#services" target="_blank">Aplicaciones Móviles</a></li>
+                        <li><a href="https://stlabs.ar/#services" target="_blank">Consultoría IT</a></li>
+                        <li><a href="https://stlabs.ar/#services" target="_blank">Cloud Solutions</a></li>
                     </ul>
                 </div>
 
                 <!-- Company Column -->
-                <div class="footer-col">
-                    <h4>Compañía</h4>
+                <div class="stlabs-footer-col">
+                    <h3>Compañía</h3>
                     <ul>
-                        <li><a href="https://stlabs.ar/#nosotros" target="_blank">Sobre Nosotros</a></li>
-                        <li><a href="https://stlabs.ar/#contacto" target="_blank">Contacto</a></li>
+                        <li><a href="https://stlabs.ar/#about" target="_blank">Sobre Nosotros</a></li>
+                        <li><a href="https://stlabs.ar/#contact" target="_blank">Contacto</a></li>
                         <li><a href="https://stlabs.ar/blog" target="_blank">Blog</a></li>
                     </ul>
                 </div>
 
                 <!-- Contact Column -->
-                <div class="footer-col">
-                    <h4>Contacto</h4>
-                    <ul class="footer-contact">
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                            <a href="mailto:info@stlabs.ar">info@stlabs.ar</a>
-                        </li>
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                            <span>Salta, Argentina</span>
-                        </li>
-                    </ul>
+                <div class="stlabs-footer-col">
+                    <h3>Contacto</h3>
+                    <a href="mailto:contacto@stlabs.ar" class="stlabs-footer-email">contacto@stlabs.ar</a>
+                    <p class="stlabs-footer-location">Salta, Argentina</p>
+                    <div class="stlabs-footer-social">
+                        <a href="https://linkedin.com/company/stlabs" target="_blank" rel="noopener noreferrer" class="stlabs-social-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 11v5"></path><path d="M8 8v.01"></path><path d="M12 16v-5"></path><path d="M16 16v-3a2 2 0 1 0 -4 0"></path><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z"></path></svg>
+                        </a>
+                        <a href="https://github.com/stlabs" target="_blank" rel="noopener noreferrer" class="stlabs-social-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <div class="footer-divider"></div>
+            <div class="stlabs-footer-divider"></div>
 
-            <div class="footer-bottom">
-                <p class="footer-copyright">
-                    © 2025 <a href="https://stlabs.ar/" target="_blank">ST Labs</a>. Todos los derechos reservados.
-                </p>
-                <div class="footer-legal">
+            <div class="stlabs-footer-bottom">
+                <p>© 2026 ST Labs. Todos los derechos reservados.</p>
+                <div class="stlabs-footer-links">
                     <a href="https://stlabs.ar/privacidad" target="_blank">Política de Privacidad</a>
                     <a href="https://stlabs.ar/terminos" target="_blank">Términos de Servicio</a>
                 </div>
