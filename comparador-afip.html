@@ -681,6 +681,173 @@
             font-size: 0.85rem;
         }
 
+        /* Column Mapping Section */
+        .mapping-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .mapping-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .mapping-title h2 {
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .mapping-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1rem;
+            align-items: start;
+            margin-bottom: 2rem;
+        }
+
+        .mapping-column {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .mapping-column h3 {
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mapping-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--accent-purple);
+            padding-top: 3rem;
+        }
+
+        .mapping-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .mapping-row label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .mapping-row select {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .mapping-row select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .mapping-row select:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .mapping-info {
+            background: rgba(57, 186, 230, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .mapping-info-icon {
+            font-size: 1.5rem;
+        }
+
+        .mapping-info-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .mapping-info-text strong {
+            color: var(--accent-blue);
+        }
+
+        .mapping-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            padding: 1rem 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--bg-card);
+            border-color: var(--accent-blue);
+        }
+
+        .preview-values {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            max-height: 60px;
+            overflow-y: auto;
+        }
+
+        .preview-values span {
+            display: block;
+            padding: 0.1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .preview-values span:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 1000px) {
+            .mapping-grid {
+                grid-template-columns: 1fr;
+            }
+            .mapping-arrow {
+                transform: rotate(90deg);
+                padding: 1rem 0;
+            }
+        }
+
         /* Difference highlight */
         .diff-positive {
             color: var(--accent-green);
@@ -802,9 +969,128 @@
                 </div>
             </div>
 
-            <button class="process-btn" id="processBtn" onclick="processLoadedFiles()">
-                🔍 Comparar Archivos
+            <button class="process-btn" id="processBtn" onclick="showColumnMapping()">
+                ➡️ Siguiente: Configurar Columnas
             </button>
+        </div>
+
+        <!-- Column Mapping Section -->
+        <div class="mapping-section" id="mappingSection">
+            <div class="mapping-title">
+                <h2>🔗 Configurar Columnas de Comparación</h2>
+                <p>Seleccione las columnas que se usarán para encontrar coincidencias entre los archivos</p>
+            </div>
+
+            <div class="mapping-info">
+                <div class="mapping-info-icon">💡</div>
+                <div class="mapping-info-text">
+                    <strong>Tip:</strong> Los registros coincidirán cuando TODAS las columnas seleccionadas tengan el mismo valor en ambos archivos.
+                    Puede agregar o quitar criterios de comparación según necesite.
+                </div>
+            </div>
+
+            <div class="mapping-grid">
+                <!-- File 1 Columns -->
+                <div class="mapping-column">
+                    <h3>📒 Archivo 1: <span id="file1Name">Libro IVA</span></h3>
+                    
+                    <div class="mapping-row">
+                        <label>1️⃣ Tipo de Comprobante</label>
+                        <select id="map1_tipo" onchange="updatePreview(1, 'tipo')">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                        <div class="preview-values" id="preview1_tipo"></div>
+                    </div>
+
+                    <div class="mapping-row">
+                        <label>2️⃣ Punto de Venta</label>
+                        <select id="map1_pv" onchange="updatePreview(1, 'pv')">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                        <div class="preview-values" id="preview1_pv"></div>
+                    </div>
+
+                    <div class="mapping-row">
+                        <label>3️⃣ Número de Comprobante</label>
+                        <select id="map1_nro" onchange="updatePreview(1, 'nro')">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                        <div class="preview-values" id="preview1_nro"></div>
+                    </div>
+
+                    <div class="mapping-row">
+                        <label>4️⃣ Tipo Doc. Vendedor/Emisor</label>
+                        <select id="map1_tipodoc" onchange="updatePreview(1, 'tipodoc')">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                        <div class="preview-values" id="preview1_tipodoc"></div>
+                    </div>
+
+                    <div class="mapping-row">
+                        <label>5️⃣ Nro. Doc. Vendedor/Emisor (CUIT)</label>
+                        <select id="map1_nrodoc" onchange="updatePreview(1, 'nrodoc')">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                        <div class="preview-values" id="preview1_nrodoc"></div>
+                    </div>
+                </div>
+
+                <div class="mapping-arrow">⟷</div>
+
+                <!-- File 2 Columns -->
+                <div class="mapping-column">
+                    <h3>📄 Archivo 2: <span id="file2Name">Comprobantes</span></h3>
+                    
+                    <div class="mapping-row">
+                        <label>1️⃣ Tipo de Comprobante</label>
+                        <select id="map2_tipo" onchange="updatePreview(2, 'tipo')">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                        <div class="preview-values" id="preview2_tipo"></div>
+                    </div>
+
+                    <div class="mapping-row">
+                        <label>2️⃣ Punto de Venta</label>
+                        <select id="map2_pv" onchange="updatePreview(2, 'pv')">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                        <div class="preview-values" id="preview2_pv"></div>
+                    </div>
+
+                    <div class="mapping-row">
+                        <label>3️⃣ Número de Comprobante</label>
+                        <select id="map2_nro" onchange="updatePreview(2, 'nro')">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                        <div class="preview-values" id="preview2_nro"></div>
+                    </div>
+
+                    <div class="mapping-row">
+                        <label>4️⃣ Tipo Doc. Vendedor/Emisor</label>
+                        <select id="map2_tipodoc" onchange="updatePreview(2, 'tipodoc')">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                        <div class="preview-values" id="preview2_tipodoc"></div>
+                    </div>
+
+                    <div class="mapping-row">
+                        <label>5️⃣ Nro. Doc. Vendedor/Emisor (CUIT)</label>
+                        <select id="map2_nrodoc" onchange="updatePreview(2, 'nrodoc')">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                        <div class="preview-values" id="preview2_nrodoc"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mapping-buttons">
+                <button class="back-btn" onclick="backToUpload()">
+                    ⬅️ Volver a Cargar Archivos
+                </button>
+                <button class="process-btn ready" onclick="processWithMapping()">
+                    🔍 Comparar Archivos
+                </button>
+            </div>
         </div>
 
         <div id="loading" class="loading" style="display: none;">
@@ -889,10 +1175,10 @@
                                     <th>Tipo Comp.</th>
                                     <th>PV</th>
                                     <th>N° Comp.</th>
-                                    <th>CUIT Emisor</th>
+                                    <th>CUIT</th>
                                     <th>Denominación</th>
-                                    <th>Total Libro</th>
-                                    <th>Total Comp.</th>
+                                    <th>Total Archivo 1</th>
+                                    <th>Total Archivo 2</th>
                                     <th>Diferencia</th>
                                 </tr>
                             </thead>
@@ -917,7 +1203,7 @@
                                     <th>CUIT</th>
                                     <th>Denominación</th>
                                     <th>Total</th>
-                                    <th>Crédito Fiscal</th>
+                                    <th>Clave Match</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -936,12 +1222,12 @@
                                     <th>Fecha</th>
                                     <th>Tipo Comp.</th>
                                     <th>PV</th>
-                                    <th>N° Desde</th>
+                                    <th>N° Comp.</th>
                                     <th>Tipo Doc.</th>
                                     <th>CUIT</th>
                                     <th>Denominación</th>
                                     <th>Total</th>
-                                    <th>IVA 21%</th>
+                                    <th>Clave Match</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -958,7 +1244,15 @@
             file1: null,
             file2: null,
             data1: null,
-            data2: null
+            data2: null,
+            headers1: [],
+            headers2: []
+        };
+
+        // Column mapping configuration
+        let columnMapping = {
+            file1: { tipo: '', pv: '', nro: '', tipodoc: '', nrodoc: '' },
+            file2: { tipo: '', pv: '', nro: '', tipodoc: '', nrodoc: '' }
         };
 
         // Parse CSV helper
@@ -1007,7 +1301,21 @@
             return num.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
-        // Generate match key
+        // Generate match key based on column mapping
+        function generateKeyFromRow(row, fileNum) {
+            const mapping = fileNum === 1 ? columnMapping.file1 : columnMapping.file2;
+            const parts = [];
+            
+            ['tipo', 'pv', 'nro', 'tipodoc', 'nrodoc'].forEach(field => {
+                if (mapping[field]) {
+                    parts.push(String(row[mapping[field]] || '').trim());
+                }
+            });
+            
+            return parts.join('|');
+        }
+
+        // Legacy function for compatibility
         function generateKey(tipoComp, puntoVenta, tipoDoc, nroDoc, nroComprobante) {
             return `${tipoComp}-${puntoVenta}-${tipoDoc}-${nroDoc}-${nroComprobante || ''}`;
         }
@@ -1131,14 +1439,137 @@
             }
         }
 
-        // Process loaded files
-        function processLoadedFiles() {
+        // Show column mapping section
+        function showColumnMapping() {
             if (!loadedFiles.data1 || !loadedFiles.data2) {
-                alert('Por favor, cargue ambos archivos CSV antes de procesar');
+                alert('Por favor, cargue ambos archivos CSV primero');
                 return;
             }
 
+            // Get headers from first row of data
+            loadedFiles.headers1 = Object.keys(loadedFiles.data1[0] || {});
+            loadedFiles.headers2 = Object.keys(loadedFiles.data2[0] || {});
+
+            // Update file names in mapping section
+            document.getElementById('file1Name').textContent = loadedFiles.file1?.name || 'Archivo 1';
+            document.getElementById('file2Name').textContent = loadedFiles.file2?.name || 'Archivo 2';
+
+            // Populate select dropdowns
+            populateColumnSelects(1, loadedFiles.headers1);
+            populateColumnSelects(2, loadedFiles.headers2);
+
+            // Auto-detect common columns
+            autoDetectColumns();
+
+            // Show mapping section
             document.getElementById('uploadSection').style.display = 'none';
+            document.getElementById('mappingSection').style.display = 'block';
+        }
+
+        // Populate column select dropdowns
+        function populateColumnSelects(fileNum, headers) {
+            const fields = ['tipo', 'pv', 'nro', 'tipodoc', 'nrodoc'];
+            
+            fields.forEach(field => {
+                const select = document.getElementById(`map${fileNum}_${field}`);
+                select.innerHTML = '<option value="">-- No usar --</option>';
+                
+                headers.forEach(header => {
+                    const option = document.createElement('option');
+                    option.value = header;
+                    option.textContent = header;
+                    select.appendChild(option);
+                });
+            });
+        }
+
+        // Auto-detect columns based on common names
+        function autoDetectColumns() {
+            const detectionRules = {
+                tipo: ['tipo de comprobante', 'tipo comprobante', 'tipo comp', 'tipocomp'],
+                pv: ['punto de venta', 'punto venta', 'pv', 'pto vta'],
+                nro: ['número de comprobante', 'numero de comprobante', 'nro comprobante', 'número desde', 'numero desde', 'nro desde'],
+                tipodoc: ['tipo doc. vendedor', 'tipo doc vendedor', 'tipo doc. emisor', 'tipo doc emisor', 'tipo documento'],
+                nrodoc: ['nro. doc. vendedor', 'nro doc vendedor', 'nro. doc. emisor', 'nro doc emisor', 'cuit', 'nro documento']
+            };
+
+            // Detect for file 1
+            loadedFiles.headers1.forEach(header => {
+                const headerLower = header.toLowerCase();
+                Object.keys(detectionRules).forEach(field => {
+                    detectionRules[field].forEach(pattern => {
+                        if (headerLower.includes(pattern) || headerLower === pattern) {
+                            const select = document.getElementById(`map1_${field}`);
+                            if (!select.value) {
+                                select.value = header;
+                                updatePreview(1, field);
+                            }
+                        }
+                    });
+                });
+            });
+
+            // Detect for file 2
+            loadedFiles.headers2.forEach(header => {
+                const headerLower = header.toLowerCase();
+                Object.keys(detectionRules).forEach(field => {
+                    detectionRules[field].forEach(pattern => {
+                        if (headerLower.includes(pattern) || headerLower === pattern) {
+                            const select = document.getElementById(`map2_${field}`);
+                            if (!select.value) {
+                                select.value = header;
+                                updatePreview(2, field);
+                            }
+                        }
+                    });
+                });
+            });
+        }
+
+        // Update preview values for a selected column
+        function updatePreview(fileNum, field) {
+            const select = document.getElementById(`map${fileNum}_${field}`);
+            const preview = document.getElementById(`preview${fileNum}_${field}`);
+            const selectedColumn = select.value;
+
+            if (!selectedColumn) {
+                preview.innerHTML = '<span style="color: var(--text-secondary);">No seleccionado</span>';
+                return;
+            }
+
+            const data = fileNum === 1 ? loadedFiles.data1 : loadedFiles.data2;
+            const sampleValues = [...new Set(data.slice(0, 10).map(row => row[selectedColumn]))].slice(0, 5);
+            
+            preview.innerHTML = sampleValues.map(v => `<span>${v || '(vacío)'}</span>`).join('');
+        }
+
+        // Go back to upload section
+        function backToUpload() {
+            document.getElementById('mappingSection').style.display = 'none';
+            document.getElementById('uploadSection').style.display = 'block';
+        }
+
+        // Process with configured mapping
+        function processWithMapping() {
+            // Get selected columns
+            const fields = ['tipo', 'pv', 'nro', 'tipodoc', 'nrodoc'];
+            
+            fields.forEach(field => {
+                columnMapping.file1[field] = document.getElementById(`map1_${field}`).value;
+                columnMapping.file2[field] = document.getElementById(`map2_${field}`).value;
+            });
+
+            // Check that at least one field is mapped on both sides
+            const hasMapping = fields.some(field => 
+                columnMapping.file1[field] && columnMapping.file2[field]
+            );
+
+            if (!hasMapping) {
+                alert('Por favor, seleccione al menos una columna para comparar en ambos archivos');
+                return;
+            }
+
+            document.getElementById('mappingSection').style.display = 'none';
             document.getElementById('loading').style.display = 'flex';
 
             // Small delay for UI update
@@ -1155,29 +1586,24 @@
                 const libroMap = new Map();
                 const comprobantesMap = new Map();
 
-                // Process Libro Compras
+                // Process File 1 (Libro Compras)
                 libroData.forEach(row => {
-                    const key = generateKey(
-                        row['Tipo de Comprobante'],
-                        row['Punto de Venta'],
-                        row['Tipo Doc. Vendedor'],
-                        row['Nro. Doc. Vendedor'],
-                        row['Número de Comprobante']
-                    );
-                    libroMap.set(key, row);
+                    const key = generateKeyFromRow(row, 1);
+                    if (key) {
+                        libroMap.set(key, row);
+                    }
                 });
 
-                // Process Mis Comprobantes
+                // Process File 2 (Mis Comprobantes)
                 comprobantesData.forEach(row => {
-                    const key = generateKey(
-                        row['Tipo de Comprobante'],
-                        row['Punto de Venta'],
-                        row['Tipo Doc. Emisor'],
-                        row['Nro. Doc. Emisor'],
-                        row['Número Desde']
-                    );
-                    comprobantesMap.set(key, row);
+                    const key = generateKeyFromRow(row, 2);
+                    if (key) {
+                        comprobantesMap.set(key, row);
+                    }
                 });
+
+                console.log('Libro keys sample:', [...libroMap.keys()].slice(0, 5));
+                console.log('Comprobantes keys sample:', [...comprobantesMap.keys()].slice(0, 5));
 
                 // Find matches and differences
                 const matched = [];
@@ -1229,6 +1655,7 @@
         // Reset and go back to upload
         function resetUpload() {
             document.getElementById('content').style.display = 'none';
+            document.getElementById('mappingSection').style.display = 'none';
             document.getElementById('uploadSection').style.display = 'block';
             
             // Reset file inputs
@@ -1248,7 +1675,11 @@
                 document.getElementById(`fileError${num}`).style.display = 'none';
             });
             
-            loadedFiles = { file1: null, file2: null, data1: null, data2: null };
+            loadedFiles = { file1: null, file2: null, data1: null, data2: null, headers1: [], headers2: [] };
+            columnMapping = {
+                file1: { tipo: '', pv: '', nro: '', tipodoc: '', nrodoc: '' },
+                file2: { tipo: '', pv: '', nro: '', tipodoc: '', nrodoc: '' }
+            };
             checkFilesReady();
         }
 
@@ -1306,15 +1737,50 @@
             `;
         }
 
+        // Find a column that might contain total/importe
+        function findTotalColumn(headers) {
+            const patterns = ['importe total', 'imp. total', 'total', 'importe'];
+            for (const pattern of patterns) {
+                const found = headers.find(h => h.toLowerCase().includes(pattern));
+                if (found) return found;
+            }
+            return null;
+        }
+
+        // Find denomination/name column
+        function findDenominationColumn(headers) {
+            const patterns = ['denominación', 'denominacion', 'nombre', 'razón social', 'razon social'];
+            for (const pattern of patterns) {
+                const found = headers.find(h => h.toLowerCase().includes(pattern));
+                if (found) return found;
+            }
+            return null;
+        }
+
+        // Find date column
+        function findDateColumn(headers) {
+            const patterns = ['fecha', 'date'];
+            for (const pattern of patterns) {
+                const found = headers.find(h => h.toLowerCase().includes(pattern));
+                if (found) return found;
+            }
+            return null;
+        }
+
         function updateSummary(matched, libroOnly, comprobantesOnly) {
-            const totalMatchedLibro = matched.reduce((sum, m) => sum + parseNumber(m.libro['Importe Total']), 0);
-            const totalMatchedComp = matched.reduce((sum, m) => sum + parseNumber(m.comprobante['Imp. Total']), 0);
-            const totalLibroOnly = libroOnly.reduce((sum, m) => sum + parseNumber(m.data['Importe Total']), 0);
-            const totalCompOnly = comprobantesOnly.reduce((sum, m) => sum + parseNumber(m.data['Imp. Total']), 0);
+            // Find total columns dynamically
+            const totalCol1 = findTotalColumn(loadedFiles.headers1);
+            const totalCol2 = findTotalColumn(loadedFiles.headers2);
+
+            const totalMatchedLibro = matched.reduce((sum, m) => sum + (totalCol1 ? parseNumber(m.libro[totalCol1]) : 0), 0);
+            const totalMatchedComp = matched.reduce((sum, m) => sum + (totalCol2 ? parseNumber(m.comprobante[totalCol2]) : 0), 0);
+            const totalLibroOnly = libroOnly.reduce((sum, m) => sum + (totalCol1 ? parseNumber(m.data[totalCol1]) : 0), 0);
+            const totalCompOnly = comprobantesOnly.reduce((sum, m) => sum + (totalCol2 ? parseNumber(m.data[totalCol2]) : 0), 0);
             
             const diffTotal = matched.reduce((sum, m) => {
-                const diff = parseNumber(m.libro['Importe Total']) - parseNumber(m.comprobante['Imp. Total']);
-                return sum + diff;
+                const val1 = totalCol1 ? parseNumber(m.libro[totalCol1]) : 0;
+                const val2 = totalCol2 ? parseNumber(m.comprobante[totalCol2]) : 0;
+                return sum + (val1 - val2);
             }, 0);
 
             document.getElementById('summarySection').innerHTML = `
@@ -1351,24 +1817,40 @@
             `;
         }
 
+        // Get display value for mapped column
+        function getMappedValue(row, fileNum, field) {
+            const mapping = fileNum === 1 ? columnMapping.file1 : columnMapping.file2;
+            const colName = mapping[field];
+            return colName ? (row[colName] || '') : '';
+        }
+
         function populateTables(matched, libroOnly, comprobantesOnly) {
+            // Find relevant columns
+            const totalCol1 = findTotalColumn(loadedFiles.headers1);
+            const totalCol2 = findTotalColumn(loadedFiles.headers2);
+            const denomCol1 = findDenominationColumn(loadedFiles.headers1);
+            const denomCol2 = findDenominationColumn(loadedFiles.headers2);
+            const dateCol1 = findDateColumn(loadedFiles.headers1);
+            const dateCol2 = findDateColumn(loadedFiles.headers2);
+
             // Matched table
             const matchedTbody = document.querySelector('#tableMatched tbody');
             matchedTbody.innerHTML = matched.map((m, i) => {
-                const totalLibro = parseNumber(m.libro['Importe Total']);
-                const totalComp = parseNumber(m.comprobante['Imp. Total']);
+                const totalLibro = totalCol1 ? parseNumber(m.libro[totalCol1]) : 0;
+                const totalComp = totalCol2 ? parseNumber(m.comprobante[totalCol2]) : 0;
                 const diff = totalLibro - totalComp;
                 const diffClass = Math.abs(diff) < 0.01 ? '' : (diff > 0 ? 'diff-positive' : 'diff-negative');
+                const fecha = (dateCol1 && m.libro[dateCol1]) || (dateCol2 && m.comprobante[dateCol2]) || '';
                 
                 return `
                     <tr>
                         <td>${i + 1}</td>
-                        <td>${m.libro['Fecha de Emisión'] || m.comprobante['Fecha de Emisión']}</td>
-                        <td>${getTipoComprobante(m.libro['Tipo de Comprobante'])}</td>
-                        <td>${m.libro['Punto de Venta']}</td>
-                        <td>${m.libro['Número de Comprobante']}</td>
-                        <td>${m.libro['Nro. Doc. Vendedor']}</td>
-                        <td>${m.libro['Denominación Vendedor']}</td>
+                        <td>${fecha}</td>
+                        <td>${getTipoComprobante(getMappedValue(m.libro, 1, 'tipo'))}</td>
+                        <td>${getMappedValue(m.libro, 1, 'pv')}</td>
+                        <td>${getMappedValue(m.libro, 1, 'nro')}</td>
+                        <td>${getMappedValue(m.libro, 1, 'nrodoc')}</td>
+                        <td>${denomCol1 ? m.libro[denomCol1] : ''}</td>
                         <td class="amount">$ ${formatNumber(totalLibro)}</td>
                         <td class="amount">$ ${formatNumber(totalComp)}</td>
                         <td class="amount ${diffClass}">$ ${formatNumber(diff)}</td>
@@ -1376,39 +1858,49 @@
                 `;
             }).join('');
 
-            // Libro Only table
+            // Libro Only table (File 1)
             const libroTbody = document.querySelector('#tableLibroOnly tbody');
-            libroTbody.innerHTML = libroOnly.map((m, i) => `
-                <tr>
-                    <td>${i + 1}</td>
-                    <td>${m.data['Fecha de Emisión']}</td>
-                    <td>${getTipoComprobante(m.data['Tipo de Comprobante'])}</td>
-                    <td>${m.data['Punto de Venta']}</td>
-                    <td>${m.data['Número de Comprobante']}</td>
-                    <td>${m.data['Tipo Doc. Vendedor']}</td>
-                    <td>${m.data['Nro. Doc. Vendedor']}</td>
-                    <td>${m.data['Denominación Vendedor']}</td>
-                    <td class="amount">$ ${formatNumber(parseNumber(m.data['Importe Total']))}</td>
-                    <td class="amount">$ ${formatNumber(parseNumber(m.data['Crédito Fiscal Computable']))}</td>
-                </tr>
-            `).join('');
+            libroTbody.innerHTML = libroOnly.map((m, i) => {
+                const total = totalCol1 ? parseNumber(m.data[totalCol1]) : 0;
+                const fecha = dateCol1 ? m.data[dateCol1] : '';
+                
+                return `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${fecha}</td>
+                        <td>${getTipoComprobante(getMappedValue(m.data, 1, 'tipo'))}</td>
+                        <td>${getMappedValue(m.data, 1, 'pv')}</td>
+                        <td>${getMappedValue(m.data, 1, 'nro')}</td>
+                        <td>${getMappedValue(m.data, 1, 'tipodoc')}</td>
+                        <td>${getMappedValue(m.data, 1, 'nrodoc')}</td>
+                        <td>${denomCol1 ? m.data[denomCol1] : ''}</td>
+                        <td class="amount">$ ${formatNumber(total)}</td>
+                        <td>${m.key}</td>
+                    </tr>
+                `;
+            }).join('');
 
-            // Comprobantes Only table
+            // Comprobantes Only table (File 2)
             const compTbody = document.querySelector('#tableComprobantesOnly tbody');
-            compTbody.innerHTML = comprobantesOnly.map((m, i) => `
-                <tr>
-                    <td>${i + 1}</td>
-                    <td>${m.data['Fecha de Emisión']}</td>
-                    <td>${getTipoComprobante(m.data['Tipo de Comprobante'])}</td>
-                    <td>${m.data['Punto de Venta']}</td>
-                    <td>${m.data['Número Desde']}</td>
-                    <td>${m.data['Tipo Doc. Emisor']}</td>
-                    <td>${m.data['Nro. Doc. Emisor']}</td>
-                    <td>${m.data['Denominación Emisor']}</td>
-                    <td class="amount">$ ${formatNumber(parseNumber(m.data['Imp. Total']))}</td>
-                    <td class="amount">$ ${formatNumber(parseNumber(m.data['IVA 21%']))}</td>
-                </tr>
-            `).join('');
+            compTbody.innerHTML = comprobantesOnly.map((m, i) => {
+                const total = totalCol2 ? parseNumber(m.data[totalCol2]) : 0;
+                const fecha = dateCol2 ? m.data[dateCol2] : '';
+                
+                return `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${fecha}</td>
+                        <td>${getTipoComprobante(getMappedValue(m.data, 2, 'tipo'))}</td>
+                        <td>${getMappedValue(m.data, 2, 'pv')}</td>
+                        <td>${getMappedValue(m.data, 2, 'nro')}</td>
+                        <td>${getMappedValue(m.data, 2, 'tipodoc')}</td>
+                        <td>${getMappedValue(m.data, 2, 'nrodoc')}</td>
+                        <td>${denomCol2 ? m.data[denomCol2] : ''}</td>
+                        <td class="amount">$ ${formatNumber(total)}</td>
+                        <td>${m.key}</td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         // Tab switching
