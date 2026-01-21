@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparador AFIP - Diciembre 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #131920;
+            --bg-card: #1a2129;
+            --accent-blue: #39bae6;
+            --accent-green: #7fd962;
+            --accent-red: #ff6b6b;
+            --accent-yellow: #ffb454;
+            --accent-purple: #c695ff;
+            --text-primary: #e6e6e6;
+            --text-secondary: #8a919a;
+            --border-color: #2d3640;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-green));
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .stat-card.blue::before { background: var(--accent-blue); }
+        .stat-card.green::before { background: var(--accent-green); }
+        .stat-card.red::before { background: var(--accent-red); }
+        .stat-card.yellow::before { background: var(--accent-yellow); }
+        .stat-card.purple::before { background: var(--accent-purple); }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .stat-card.blue .stat-value { color: var(--accent-blue); }
+        .stat-card.green .stat-value { color: var(--accent-green); }
+        .stat-card.red .stat-value { color: var(--accent-red); }
+        .stat-card.yellow .stat-value { color: var(--accent-yellow); }
+        .stat-card.purple .stat-value { color: var(--accent-purple); }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+            border-color: var(--accent-blue);
+        }
+
+        .tab-btn.active.green { background: var(--accent-green); border-color: var(--accent-green); }
+        .tab-btn.active.red { background: var(--accent-red); border-color: var(--accent-red); }
+        .tab-btn.active.yellow { background: var(--accent-yellow); border-color: var(--accent-yellow); }
+
+        .tab-count {
+            background: rgba(255,255,255,0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Search and Filters */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .export-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .export-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(57, 186, 230, 0.3);
+        }
+
+        /* Tables */
+        .table-container {
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent-blue);
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        tr:hover td {
+            background: rgba(57, 186, 230, 0.05);
+        }
+
+        .match-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .match-indicator.matched { background: var(--accent-green); }
+        .match-indicator.unmatched { background: var(--accent-red); }
+
+        /* Amount formatting */
+        .amount {
+            font-family: 'JetBrains Mono', monospace;
+            text-align: right;
+        }
+
+        .amount.positive { color: var(--accent-green); }
+        .amount.negative { color: var(--accent-red); }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-bar {
+            height: 24px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .progress-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--bg-primary);
+            transition: width 0.5s ease;
+        }
+
+        .progress-segment.matched { background: var(--accent-green); }
+        .progress-segment.libro-only { background: var(--accent-yellow); }
+        .progress-segment.comprobantes-only { background: var(--accent-red); }
+
+        .progress-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.matched { background: var(--accent-green); }
+        .legend-dot.libro-only { background: var(--accent-yellow); }
+        .legend-dot.comprobantes-only { background: var(--accent-red); }
+
+        /* Summary cards */
+        .summary-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .summary-card h3 {
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item .label {
+            color: var(--text-secondary);
+        }
+
+        .summary-item .value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+            gap: 1rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .stat-value {
+                font-size: 1.8rem;
+            }
+
+            .tab-btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .tabs, .controls, .export-btn, .upload-section {
+                display: none;
+            }
+
+            .stat-card, .table-container, .summary-card {
+                break-inside: avoid;
+                border: 1px solid #ddd;
+            }
+        }
+
+        /* File Upload Section */
+        .upload-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .upload-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .upload-title h2 {
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-title p {
+            color: var(--text-secondary);
+        }
+
+        .upload-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .upload-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px dashed var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .upload-card:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .upload-card.loaded {
+            border-color: var(--accent-green);
+            border-style: solid;
+        }
+
+        .upload-card.error {
+            border-color: var(--accent-red);
+            border-style: solid;
+        }
+
+        .upload-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+        }
+
+        .upload-card-title {
+            flex: 1;
+        }
+
+        .upload-card-title h3 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .upload-card-title p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .upload-status {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+        }
+
+        .upload-status.pending {
+            color: var(--text-secondary);
+        }
+
+        .upload-status.success {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+            color: var(--bg-primary);
+        }
+
+        .upload-status.error {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            color: white;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .file-input-label:hover {
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+        }
+
+        .file-name {
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-green);
+            word-break: break-all;
+        }
+
+        .file-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .process-btn {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .process-btn.ready {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .process-btn.ready:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(57, 186, 230, 0.4);
+        }
+
+        .error-message {
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            color: var(--accent-red);
+            font-size: 0.85rem;
+        }
+
+        /* Difference highlight */
+        .diff-positive {
+            color: var(--accent-green);
+        }
+
+        .diff-negative {
+            color: var(--accent-red);
+        }
+
+        /* Badge for source */
+        .source-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .source-badge.libro {
+            background: rgba(255, 180, 84, 0.2);
+            color: var(--accent-yellow);
+        }
+
+        .source-badge.comprobantes {
+            background: rgba(57, 186, 230, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .detail-row {
+            background: var(--bg-secondary) !important;
+        }
+
+        .detail-row td {
+            padding: 1.5rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .detail-item {
+            padding: 0.5rem;
+        }
+
+        .detail-item .label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-item .value {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">📊</div>
+            <h1>Comparador de Comprobantes AFIP</h1>
+            <p class="subtitle">Análisis cruzado: Libro IVA Compras vs Mis Comprobantes Recibidos - Diciembre 2025</p>
+        </header>
+
+        <!-- Upload Section -->
+        <div class="upload-section" id="uploadSection">
+            <div class="upload-title">
+                <h2>📂 Cargar Archivos CSV</h2>
+                <p>Seleccione los dos archivos CSV de AFIP para realizar la comparación</p>
+            </div>
+
+            <div class="upload-grid">
+                <!-- File 1: Libro Compras -->
+                <div class="upload-card" id="uploadCard1">
+                    <div class="upload-card-header">
+                        <div class="upload-icon">📒</div>
+                        <div class="upload-card-title">
+                            <h3>Archivo 1: Libro IVA Compras</h3>
+                            <p>Portal IVA - Libro de Compras</p>
+                        </div>
+                        <div class="upload-status pending" id="status1">
+                            <span>○</span>
+                        </div>
+                    </div>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="file1" class="file-input" accept=".csv" onchange="handleFileUpload(1, this)">
+                        <label for="file1" class="file-input-label">
+                            <span>📁</span>
+                            <span>Seleccionar archivo CSV</span>
+                        </label>
+                    </div>
+                    <div id="fileName1" class="file-name" style="display: none;"></div>
+                    <div id="fileInfo1" class="file-info" style="display: none;"></div>
+                    <div id="fileError1" class="error-message" style="display: none;"></div>
+                </div>
+
+                <!-- File 2: Mis Comprobantes -->
+                <div class="upload-card" id="uploadCard2">
+                    <div class="upload-card-header">
+                        <div class="upload-icon">📄</div>
+                        <div class="upload-card-title">
+                            <h3>Archivo 2: Mis Comprobantes Recibidos</h3>
+                            <p>AFIP - Comprobantes Recibidos</p>
+                        </div>
+                        <div class="upload-status pending" id="status2">
+                            <span>○</span>
+                        </div>
+                    </div>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="file2" class="file-input" accept=".csv" onchange="handleFileUpload(2, this)">
+                        <label for="file2" class="file-input-label">
+                            <span>📁</span>
+                            <span>Seleccionar archivo CSV</span>
+                        </label>
+                    </div>
+                    <div id="fileName2" class="file-name" style="display: none;"></div>
+                    <div id="fileInfo2" class="file-info" style="display: none;"></div>
+                    <div id="fileError2" class="error-message" style="display: none;"></div>
+                </div>
+            </div>
+
+            <button class="process-btn" id="processBtn" onclick="processLoadedFiles()">
+                🔍 Comparar Archivos
+            </button>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <span>Procesando archivos CSV...</span>
+        </div>
+
+        <div id="content" style="display: none;">
+            <!-- Statistics -->
+            <div class="stats-grid" id="statsGrid">
+                <!-- Stats will be populated by JS -->
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <h3 style="margin-bottom: 1rem; color: var(--text-secondary);">Distribución de Coincidencias</h3>
+                <div class="progress-bar" id="progressBar">
+                    <!-- Progress segments will be populated by JS -->
+                </div>
+                <div class="progress-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot matched"></div>
+                        <span>Coincidentes</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot libro-only"></div>
+                        <span>Solo en Libro IVA</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot comprobantes-only"></div>
+                        <span>Solo en Mis Comprobantes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-section" id="summarySection">
+                <!-- Summary will be populated by JS -->
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs" id="tabs">
+                <button class="tab-btn active" data-tab="matched">
+                    ✅ Coincidentes
+                    <span class="tab-count" id="countMatched">0</span>
+                </button>
+                <button class="tab-btn yellow" data-tab="libroOnly">
+                    📒 Solo en Libro IVA
+                    <span class="tab-count" id="countLibroOnly">0</span>
+                </button>
+                <button class="tab-btn red" data-tab="comprobantesOnly">
+                    📄 Solo en Mis Comprobantes
+                    <span class="tab-count" id="countComprobantesOnly">0</span>
+                </button>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Buscar por CUIT, denominación, número de comprobante...">
+                </div>
+                <button class="export-btn" onclick="exportToCSV()">
+                    📥 Exportar Reporte
+                </button>
+                <button class="export-btn" onclick="window.print()">
+                    🖨️ Imprimir
+                </button>
+                <button class="export-btn" onclick="resetUpload()" style="background: linear-gradient(135deg, var(--accent-yellow), var(--accent-red));">
+                    🔄 Cargar Otros Archivos
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="tab-content active" id="tab-matched">
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table id="tableMatched">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Fecha</th>
+                                    <th>Tipo Comp.</th>
+                                    <th>PV</th>
+                                    <th>N° Comp.</th>
+                                    <th>CUIT Emisor</th>
+                                    <th>Denominación</th>
+                                    <th>Total Libro</th>
+                                    <th>Total Comp.</th>
+                                    <th>Diferencia</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-libroOnly">
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table id="tableLibroOnly">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Fecha</th>
+                                    <th>Tipo Comp.</th>
+                                    <th>PV</th>
+                                    <th>N° Comp.</th>
+                                    <th>Tipo Doc.</th>
+                                    <th>CUIT</th>
+                                    <th>Denominación</th>
+                                    <th>Total</th>
+                                    <th>Crédito Fiscal</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-comprobantesOnly">
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table id="tableComprobantesOnly">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Fecha</th>
+                                    <th>Tipo Comp.</th>
+                                    <th>PV</th>
+                                    <th>N° Desde</th>
+                                    <th>Tipo Doc.</th>
+                                    <th>CUIT</th>
+                                    <th>Denominación</th>
+                                    <th>Total</th>
+                                    <th>IVA 21%</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global storage for loaded files
+        let loadedFiles = {
+            file1: null,
+            file2: null,
+            data1: null,
+            data2: null
+        };
+
+        // Parse CSV helper
+        function parseCSV(csv, delimiter = ';') {
+            const lines = csv.trim().split('\n');
+            const headers = lines[0].split(delimiter).map(h => h.replace(/"/g, '').trim());
+            const data = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                
+                const values = [];
+                let current = '';
+                let inQuotes = false;
+                
+                for (let char of lines[i]) {
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === delimiter && !inQuotes) {
+                        values.push(current.trim());
+                        current = '';
+                    } else {
+                        current += char;
+                    }
+                }
+                values.push(current.trim());
+                
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header] = values[index] || '';
+                });
+                data.push(row);
+            }
+            
+            return data;
+        }
+
+        // Parse number from Argentine format
+        function parseNumber(str) {
+            if (!str) return 0;
+            return parseFloat(str.replace(/\./g, '').replace(',', '.')) || 0;
+        }
+
+        // Format number to Argentine format
+        function formatNumber(num) {
+            return num.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Generate match key
+        function generateKey(tipoComp, puntoVenta, tipoDoc, nroDoc, nroComprobante) {
+            return `${tipoComp}-${puntoVenta}-${tipoDoc}-${nroDoc}-${nroComprobante || ''}`;
+        }
+
+        // Get comprobante type name
+        function getTipoComprobante(codigo) {
+            const tipos = {
+                '1': 'Factura A',
+                '2': 'Nota de Débito A',
+                '3': 'Nota de Crédito A',
+                '6': 'Factura B',
+                '7': 'Nota de Débito B',
+                '8': 'Nota de Crédito B',
+                '11': 'Factura C',
+                '12': 'Nota de Débito C',
+                '13': 'Nota de Crédito C',
+                '15': 'Recibo C',
+                '51': 'Factura M',
+                '81': 'Tique Factura A',
+                '82': 'Tique Factura B',
+                '83': 'Tique',
+                '201': 'Factura E',
+                '202': 'Nota de Débito E',
+                '203': 'Nota de Crédito E'
+            };
+            return tipos[codigo] || `Tipo ${codigo}`;
+        }
+
+        // Handle file upload
+        function handleFileUpload(fileNum, input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const card = document.getElementById(`uploadCard${fileNum}`);
+            const status = document.getElementById(`status${fileNum}`);
+            const fileName = document.getElementById(`fileName${fileNum}`);
+            const fileInfo = document.getElementById(`fileInfo${fileNum}`);
+            const fileError = document.getElementById(`fileError${fileNum}`);
+
+            // Reset states
+            card.classList.remove('loaded', 'error');
+            status.classList.remove('success', 'error');
+            status.classList.add('pending');
+            fileError.style.display = 'none';
+
+            // Check file type
+            if (!file.name.toLowerCase().endsWith('.csv')) {
+                card.classList.add('error');
+                status.classList.remove('pending');
+                status.classList.add('error');
+                status.innerHTML = '<span>✗</span>';
+                fileError.textContent = 'Error: El archivo debe ser un CSV';
+                fileError.style.display = 'block';
+                return;
+            }
+
+            // Read file
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    const data = parseCSV(content);
+
+                    if (data.length === 0) {
+                        throw new Error('El archivo está vacío o no tiene el formato correcto');
+                    }
+
+                    // Store data
+                    loadedFiles[`file${fileNum}`] = file;
+                    loadedFiles[`data${fileNum}`] = data;
+
+                    // Update UI - Success
+                    card.classList.add('loaded');
+                    status.classList.remove('pending');
+                    status.classList.add('success');
+                    status.innerHTML = '<span>✓</span>';
+
+                    fileName.textContent = file.name;
+                    fileName.style.display = 'block';
+
+                    fileInfo.innerHTML = `
+                        <span>${data.length} registros</span>
+                        <span>${(file.size / 1024).toFixed(1)} KB</span>
+                    `;
+                    fileInfo.style.display = 'flex';
+
+                    // Check if both files are loaded
+                    checkFilesReady();
+
+                } catch (err) {
+                    card.classList.add('error');
+                    status.classList.remove('pending');
+                    status.classList.add('error');
+                    status.innerHTML = '<span>✗</span>';
+                    fileError.textContent = `Error: ${err.message}`;
+                    fileError.style.display = 'block';
+                    loadedFiles[`data${fileNum}`] = null;
+                    checkFilesReady();
+                }
+            };
+
+            reader.onerror = function() {
+                card.classList.add('error');
+                status.classList.remove('pending');
+                status.classList.add('error');
+                status.innerHTML = '<span>✗</span>';
+                fileError.textContent = 'Error al leer el archivo';
+                fileError.style.display = 'block';
+            };
+
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        // Check if both files are ready
+        function checkFilesReady() {
+            const btn = document.getElementById('processBtn');
+            if (loadedFiles.data1 && loadedFiles.data2) {
+                btn.classList.add('ready');
+            } else {
+                btn.classList.remove('ready');
+            }
+        }
+
+        // Process loaded files
+        function processLoadedFiles() {
+            if (!loadedFiles.data1 || !loadedFiles.data2) {
+                alert('Por favor, cargue ambos archivos CSV antes de procesar');
+                return;
+            }
+
+            document.getElementById('uploadSection').style.display = 'none';
+            document.getElementById('loading').style.display = 'flex';
+
+            // Small delay for UI update
+            setTimeout(() => {
+                processData(loadedFiles.data1, loadedFiles.data2);
+            }, 100);
+        }
+
+        // Main processing
+        function processData(libroData, comprobantesData) {
+            try {
+
+                // Create lookup maps
+                const libroMap = new Map();
+                const comprobantesMap = new Map();
+
+                // Process Libro Compras
+                libroData.forEach(row => {
+                    const key = generateKey(
+                        row['Tipo de Comprobante'],
+                        row['Punto de Venta'],
+                        row['Tipo Doc. Vendedor'],
+                        row['Nro. Doc. Vendedor'],
+                        row['Número de Comprobante']
+                    );
+                    libroMap.set(key, row);
+                });
+
+                // Process Mis Comprobantes
+                comprobantesData.forEach(row => {
+                    const key = generateKey(
+                        row['Tipo de Comprobante'],
+                        row['Punto de Venta'],
+                        row['Tipo Doc. Emisor'],
+                        row['Nro. Doc. Emisor'],
+                        row['Número Desde']
+                    );
+                    comprobantesMap.set(key, row);
+                });
+
+                // Find matches and differences
+                const matched = [];
+                const libroOnly = [];
+                const comprobantesOnly = [];
+
+                // Check libro against comprobantes
+                libroMap.forEach((libroRow, key) => {
+                    if (comprobantesMap.has(key)) {
+                        matched.push({
+                            key,
+                            libro: libroRow,
+                            comprobante: comprobantesMap.get(key)
+                        });
+                    } else {
+                        libroOnly.push({ key, data: libroRow });
+                    }
+                });
+
+                // Check comprobantes against libro
+                comprobantesMap.forEach((compRow, key) => {
+                    if (!libroMap.has(key)) {
+                        comprobantesOnly.push({ key, data: compRow });
+                    }
+                });
+
+                // Update UI
+                updateStats(matched, libroOnly, comprobantesOnly, libroData, comprobantesData);
+                updateProgressBar(matched, libroOnly, comprobantesOnly);
+                updateSummary(matched, libroOnly, comprobantesOnly);
+                populateTables(matched, libroOnly, comprobantesOnly);
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+
+                // Store data for search
+                window.matchedData = matched;
+                window.libroOnlyData = libroOnly;
+                window.comprobantesOnlyData = comprobantesOnly;
+
+            } catch (error) {
+                console.error('Error processing data:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('uploadSection').style.display = 'block';
+                alert('Error al procesar los archivos: ' + error.message);
+            }
+        }
+        
+        // Reset and go back to upload
+        function resetUpload() {
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('uploadSection').style.display = 'block';
+            
+            // Reset file inputs
+            document.getElementById('file1').value = '';
+            document.getElementById('file2').value = '';
+            
+            // Reset cards
+            ['1', '2'].forEach(num => {
+                const card = document.getElementById(`uploadCard${num}`);
+                const status = document.getElementById(`status${num}`);
+                card.classList.remove('loaded', 'error');
+                status.classList.remove('success', 'error');
+                status.classList.add('pending');
+                status.innerHTML = '<span>○</span>';
+                document.getElementById(`fileName${num}`).style.display = 'none';
+                document.getElementById(`fileInfo${num}`).style.display = 'none';
+                document.getElementById(`fileError${num}`).style.display = 'none';
+            });
+            
+            loadedFiles = { file1: null, file2: null, data1: null, data2: null };
+            checkFilesReady();
+        }
+
+        function updateStats(matched, libroOnly, comprobantesOnly, libroData, comprobantesData) {
+            const totalLibro = libroData.reduce((sum, row) => sum + parseNumber(row['Importe Total']), 0);
+            const totalComprobantes = comprobantesData.reduce((sum, row) => sum + parseNumber(row['Imp. Total']), 0);
+            const totalMatched = matched.reduce((sum, m) => sum + parseNumber(m.libro['Importe Total']), 0);
+
+            const statsHTML = `
+                <div class="stat-card blue">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-value">${libroData.length}</div>
+                    <div class="stat-label">Registros en Libro IVA</div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-value">${comprobantesData.length}</div>
+                    <div class="stat-label">Registros en Mis Comprobantes</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value">${matched.length}</div>
+                    <div class="stat-label">Registros Coincidentes</div>
+                </div>
+                <div class="stat-card yellow">
+                    <div class="stat-icon">📒</div>
+                    <div class="stat-value">${libroOnly.length}</div>
+                    <div class="stat-label">Solo en Libro IVA</div>
+                </div>
+                <div class="stat-card red">
+                    <div class="stat-icon">📄</div>
+                    <div class="stat-value">${comprobantesOnly.length}</div>
+                    <div class="stat-label">Solo en Mis Comprobantes</div>
+                </div>
+            `;
+
+            document.getElementById('statsGrid').innerHTML = statsHTML;
+            document.getElementById('countMatched').textContent = matched.length;
+            document.getElementById('countLibroOnly').textContent = libroOnly.length;
+            document.getElementById('countComprobantesOnly').textContent = comprobantesOnly.length;
+        }
+
+        function updateProgressBar(matched, libroOnly, comprobantesOnly) {
+            const total = matched.length + libroOnly.length + comprobantesOnly.length;
+            if (total === 0) return;
+
+            const matchedPercent = (matched.length / total * 100).toFixed(1);
+            const libroPercent = (libroOnly.length / total * 100).toFixed(1);
+            const comprobantesPercent = (comprobantesOnly.length / total * 100).toFixed(1);
+
+            document.getElementById('progressBar').innerHTML = `
+                <div class="progress-segment matched" style="width: ${matchedPercent}%">${matchedPercent > 10 ? matchedPercent + '%' : ''}</div>
+                <div class="progress-segment libro-only" style="width: ${libroPercent}%">${libroPercent > 10 ? libroPercent + '%' : ''}</div>
+                <div class="progress-segment comprobantes-only" style="width: ${comprobantesPercent}%">${comprobantesPercent > 10 ? comprobantesPercent + '%' : ''}</div>
+            `;
+        }
+
+        function updateSummary(matched, libroOnly, comprobantesOnly) {
+            const totalMatchedLibro = matched.reduce((sum, m) => sum + parseNumber(m.libro['Importe Total']), 0);
+            const totalMatchedComp = matched.reduce((sum, m) => sum + parseNumber(m.comprobante['Imp. Total']), 0);
+            const totalLibroOnly = libroOnly.reduce((sum, m) => sum + parseNumber(m.data['Importe Total']), 0);
+            const totalCompOnly = comprobantesOnly.reduce((sum, m) => sum + parseNumber(m.data['Imp. Total']), 0);
+            
+            const diffTotal = matched.reduce((sum, m) => {
+                const diff = parseNumber(m.libro['Importe Total']) - parseNumber(m.comprobante['Imp. Total']);
+                return sum + diff;
+            }, 0);
+
+            document.getElementById('summarySection').innerHTML = `
+                <div class="summary-card">
+                    <h3>💰 Resumen de Importes</h3>
+                    <div class="summary-item">
+                        <span class="label">Total Coincidentes (Libro)</span>
+                        <span class="value">$ ${formatNumber(totalMatchedLibro)}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Total Coincidentes (Comprobantes)</span>
+                        <span class="value">$ ${formatNumber(totalMatchedComp)}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Diferencia en Coincidentes</span>
+                        <span class="value ${diffTotal >= 0 ? 'diff-positive' : 'diff-negative'}">$ ${formatNumber(Math.abs(diffTotal))}</span>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <h3>📊 Importes No Conciliados</h3>
+                    <div class="summary-item">
+                        <span class="label">Total Solo en Libro IVA</span>
+                        <span class="value" style="color: var(--accent-yellow)">$ ${formatNumber(totalLibroOnly)}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Total Solo en Comprobantes</span>
+                        <span class="value" style="color: var(--accent-red)">$ ${formatNumber(totalCompOnly)}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Diferencia Total</span>
+                        <span class="value">$ ${formatNumber(Math.abs(totalLibroOnly - totalCompOnly))}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function populateTables(matched, libroOnly, comprobantesOnly) {
+            // Matched table
+            const matchedTbody = document.querySelector('#tableMatched tbody');
+            matchedTbody.innerHTML = matched.map((m, i) => {
+                const totalLibro = parseNumber(m.libro['Importe Total']);
+                const totalComp = parseNumber(m.comprobante['Imp. Total']);
+                const diff = totalLibro - totalComp;
+                const diffClass = Math.abs(diff) < 0.01 ? '' : (diff > 0 ? 'diff-positive' : 'diff-negative');
+                
+                return `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${m.libro['Fecha de Emisión'] || m.comprobante['Fecha de Emisión']}</td>
+                        <td>${getTipoComprobante(m.libro['Tipo de Comprobante'])}</td>
+                        <td>${m.libro['Punto de Venta']}</td>
+                        <td>${m.libro['Número de Comprobante']}</td>
+                        <td>${m.libro['Nro. Doc. Vendedor']}</td>
+                        <td>${m.libro['Denominación Vendedor']}</td>
+                        <td class="amount">$ ${formatNumber(totalLibro)}</td>
+                        <td class="amount">$ ${formatNumber(totalComp)}</td>
+                        <td class="amount ${diffClass}">$ ${formatNumber(diff)}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Libro Only table
+            const libroTbody = document.querySelector('#tableLibroOnly tbody');
+            libroTbody.innerHTML = libroOnly.map((m, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${m.data['Fecha de Emisión']}</td>
+                    <td>${getTipoComprobante(m.data['Tipo de Comprobante'])}</td>
+                    <td>${m.data['Punto de Venta']}</td>
+                    <td>${m.data['Número de Comprobante']}</td>
+                    <td>${m.data['Tipo Doc. Vendedor']}</td>
+                    <td>${m.data['Nro. Doc. Vendedor']}</td>
+                    <td>${m.data['Denominación Vendedor']}</td>
+                    <td class="amount">$ ${formatNumber(parseNumber(m.data['Importe Total']))}</td>
+                    <td class="amount">$ ${formatNumber(parseNumber(m.data['Crédito Fiscal Computable']))}</td>
+                </tr>
+            `).join('');
+
+            // Comprobantes Only table
+            const compTbody = document.querySelector('#tableComprobantesOnly tbody');
+            compTbody.innerHTML = comprobantesOnly.map((m, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${m.data['Fecha de Emisión']}</td>
+                    <td>${getTipoComprobante(m.data['Tipo de Comprobante'])}</td>
+                    <td>${m.data['Punto de Venta']}</td>
+                    <td>${m.data['Número Desde']}</td>
+                    <td>${m.data['Tipo Doc. Emisor']}</td>
+                    <td>${m.data['Nro. Doc. Emisor']}</td>
+                    <td>${m.data['Denominación Emisor']}</td>
+                    <td class="amount">$ ${formatNumber(parseNumber(m.data['Imp. Total']))}</td>
+                    <td class="amount">$ ${formatNumber(parseNumber(m.data['IVA 21%']))}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Tab switching
+        document.getElementById('tabs').addEventListener('click', (e) => {
+            const btn = e.target.closest('.tab-btn');
+            if (!btn) return;
+
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            btn.classList.add('active');
+            document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(term) ? '' : 'none';
+            });
+        });
+
+        // Export to CSV
+        function exportToCSV() {
+            const activeTab = document.querySelector('.tab-content.active');
+            const table = activeTab.querySelector('table');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            
+            let csv = rows.map(row => {
+                const cells = Array.from(row.querySelectorAll('th, td'));
+                return cells.map(cell => `"${cell.textContent.replace(/"/g, '""')}"`).join(';');
+            }).join('\n');
+
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `reporte-afip-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        // Initialize - No automatic processing, wait for user to load files
+        // Files will be processed after user clicks "Comparar Archivos"
+    </script>
+</body>
+</html>
